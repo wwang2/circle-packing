@@ -1,0 +1,38 @@
+name: Search Status Update
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml matplotlib
+
+      - name: Scan orbit branches and update status
+        run: |
+          python scripts/status.py --json > /tmp/status.json
+          python scripts/visualize.py --output docs/assets/
+
+      - name: Update Issue labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/status.py --update-labels
+
+      - name: Post summary to Campaign Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/status.py --post-summary
