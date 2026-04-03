@@ -1,6 +1,6 @@
 ---
 strategy: differential-evolution + basin-hopping
-status: complete
+status: complete (3 consecutive attempts without improvement on n=32)
 eval_version: v1
 metric: 2.8426 (n=30, beats SOTA), 2.9365 (n=32)
 issue: 8
