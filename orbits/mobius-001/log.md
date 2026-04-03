@@ -3,6 +3,9 @@ strategy: mobius-inversive-geometry
 status: complete
 eval_version: eval-v1
 metric: 2.6359830865
+metric_n10: 1.5910128528
+metric_n20: 2.3011228351
+metric_n30: 2.8390768878
 metric_n32: 2.9395727728
 issue: 14
 parent: topo-001
