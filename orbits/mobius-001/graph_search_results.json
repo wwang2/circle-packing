@@ -1,0 +1,307 @@
+{
+  "best_metric": 2.635983086481036,
+  "total_tried": 3000,
+  "elapsed_s": 1944.686841726303,
+  "top_results": [
+    {
+      "method": "uniform",
+      "seed": 171,
+      "metric": 2.6307297079878382,
+      "viol": 8.298917109073045e-15
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 33,
+      "metric": 2.6271325439817965,
+      "viol": 1.5182299861749016e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 31,
+      "metric": 2.625945281486324,
+      "viol": 1.7930101847696278e-14
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 8,
+      "metric": 2.625310464102105,
+      "viol": 6.744604874597826e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 53,
+      "metric": 2.6251726922621508,
+      "viol": 6.248668249497769e-11
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 130,
+      "metric": 2.6251349649984927,
+      "viol": 8.049116928532385e-15
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 131,
+      "metric": 2.624096287286637,
+      "viol": 4.440892098500626e-16
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 67,
+      "metric": 2.6226814932476454,
+      "viol": 9.908740494779522e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 96,
+      "metric": 2.6225404035960644,
+      "viol": 1.2628786905111156e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 178,
+      "metric": 2.6221182136147223,
+      "viol": 8.298917109073045e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 191,
+      "metric": 2.6209694784628605,
+      "viol": 9.908740494779522e-15
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 4,
+      "metric": 2.6209440484684565,
+      "viol": 3.447242491461111e-14
+    },
+    {
+      "method": "concentric",
+      "seed": 24,
+      "metric": 2.6209001393872824,
+      "viol": 3.808064974464287e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 63,
+      "metric": 2.620666664189387,
+      "viol": 1.3988810110276972e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 131,
+      "metric": 2.620623894557638,
+      "viol": 7.763234499691407e-14
+    },
+    {
+      "method": "concentric",
+      "seed": 165,
+      "metric": 2.620371289992736,
+      "viol": 2.65898414397725e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 121,
+      "metric": 2.6198491618437294,
+      "viol": 1.7708057242771247e-14
+    },
+    {
+      "method": "concentric",
+      "seed": 151,
+      "metric": 2.619046378769475,
+      "viol": 6.938893903907228e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 82,
+      "metric": 2.6187825993736964,
+      "viol": 1.2934098236883074e-14
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 130,
+      "metric": 2.6186187323483057,
+      "viol": 5.9119376061289586e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 15,
+      "metric": 2.6183957703361678,
+      "viol": 1.4072076837123859e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 66,
+      "metric": 2.6183623663206808,
+      "viol": 4.912736883966318e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 197,
+      "metric": 2.6183568066486598,
+      "viol": 5.662137425588298e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 197,
+      "metric": 2.6179749206145018,
+      "viol": 3.552713678800501e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 143,
+      "metric": 2.6177528318302676,
+      "viol": 1.740274591099933e-14
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 97,
+      "metric": 2.6173216822637335,
+      "viol": 3.863576125695545e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 116,
+      "metric": 2.617282015707851,
+      "viol": 7.327471962526033e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 51,
+      "metric": 2.6172762151865827,
+      "viol": 1.8596235662471372e-15
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 33,
+      "metric": 2.6171054196318715,
+      "viol": 4.829470157119431e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 58,
+      "metric": 2.616946144634053,
+      "viol": 1.0907941216942163e-14
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 74,
+      "metric": 2.6168716968517556,
+      "viol": 1.9539925233402755e-14
+    },
+    {
+      "method": "concentric",
+      "seed": 195,
+      "metric": 2.616727615554909,
+      "viol": 2.373101715136272e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 81,
+      "metric": 2.616489716517332,
+      "viol": 9.492406860545088e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 123,
+      "metric": 2.6164420942574513,
+      "viol": 2.759736883461983e-13
+    },
+    {
+      "method": "uniform",
+      "seed": 125,
+      "metric": 2.6164317070463308,
+      "viol": 3.200217868482014e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 75,
+      "metric": 2.6160855170297372,
+      "viol": 1.687538997430238e-14
+    },
+    {
+      "method": "grid_perturb",
+      "seed": 163,
+      "metric": 2.6160274188169064,
+      "viol": 2.3925306180672123e-14
+    },
+    {
+      "method": "concentric",
+      "seed": 66,
+      "metric": 2.61552870108057,
+      "viol": 2.90878432451791e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 8,
+      "metric": 2.6154272863533157,
+      "viol": 3.015843130782514e-11
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 157,
+      "metric": 2.6153762778619347,
+      "viol": 2.9282132274488504e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 1,
+      "metric": 2.6153470314671843,
+      "viol": 1.1657341758564144e-14
+    },
+    {
+      "method": "uniform",
+      "seed": 97,
+      "metric": 2.615263372915276,
+      "viol": 4.579669976578771e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 190,
+      "metric": 2.615078668033218,
+      "viol": 3.807232307195818e-13
+    },
+    {
+      "method": "concentric",
+      "seed": 122,
+      "metric": 2.6149619251533123,
+      "viol": 4.7128967395337895e-14
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 111,
+      "metric": 2.61495984102216,
+      "viol": 8.215650382226158e-15
+    },
+    {
+      "method": "concentric",
+      "seed": 18,
+      "metric": 2.614900197939113,
+      "viol": 1.73749903353837e-14
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 44,
+      "metric": 2.614874299559406,
+      "viol": 0.0
+    },
+    {
+      "method": "uniform",
+      "seed": 28,
+      "metric": 2.6144350953297555,
+      "viol": 1.5201728764679956e-12
+    },
+    {
+      "method": "delaunay_based",
+      "seed": 94,
+      "metric": 2.614425142923223,
+      "viol": 8.298917109073045e-15
+    },
+    {
+      "method": "uniform",
+      "seed": 23,
+      "metric": 2.6141127078429656,
+      "viol": 1.1934897514720433e-15
+    }
+  ]
+}
