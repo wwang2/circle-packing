@@ -258,29 +258,40 @@ def optimize_one(x0, n, verbose=False):
     x_penalty = x.copy()
     metric_penalty = sum(x[3*i+2] for i in range(n))
 
-    # SLSQP polish for constraint satisfaction
-    cons = make_slsqp_constraints(n)
-    result = minimize(
-        lambda x: -sum(x[3*i+2] for i in range(n)),
-        x, method='SLSQP', bounds=bounds, constraints=cons,
-        options={'maxiter': 2000, 'ftol': 1e-15, 'disp': False}
-    )
-    x_slsqp = fix_solution(result.x, n)
-    metric_slsqp = sum(x_slsqp[3*i+2] for i in range(n))
-    viol_slsqp = max_violation(x_slsqp, n)
-
-    # Use SLSQP if it's feasible (strict)
-    if viol_slsqp < 1e-10:
-        return x_slsqp, metric_slsqp
-
-    # Fall back to penalty result if SLSQP also infeasible
+    # Check penalty result feasibility
     viol_pen = max_violation(x_penalty, n)
     if viol_pen < 1e-10:
+        # Already feasible from penalty method, try quick SLSQP
+        if n <= 20:
+            cons = make_slsqp_constraints(n)
+            result = minimize(
+                lambda x: -sum(x[3*i+2] for i in range(n)),
+                x, method='SLSQP', bounds=bounds, constraints=cons,
+                options={'maxiter': 500, 'ftol': 1e-15, 'disp': False}
+            )
+            x_slsqp = fix_solution(result.x, n)
+            metric_slsqp = sum(x_slsqp[3*i+2] for i in range(n))
+            viol_slsqp = max_violation(x_slsqp, n)
+            if viol_slsqp < 1e-10 and metric_slsqp > metric_penalty:
+                return x_slsqp, metric_slsqp
         return x_penalty, metric_penalty
 
-    # Return best with small violation
-    if viol_slsqp < viol_pen and viol_slsqp < 1e-6:
-        return x_slsqp, metric_slsqp
+    # Not feasible from penalty alone -- try SLSQP to fix
+    if n <= 30:
+        cons = make_slsqp_constraints(n)
+        slsqp_maxiter = min(500, max(100, 5000 // n))
+        result = minimize(
+            lambda x: -sum(x[3*i+2] for i in range(n)),
+            x, method='SLSQP', bounds=bounds, constraints=cons,
+            options={'maxiter': slsqp_maxiter, 'ftol': 1e-15, 'disp': False}
+        )
+        x_slsqp = fix_solution(result.x, n)
+        metric_slsqp = sum(x_slsqp[3*i+2] for i in range(n))
+        viol_slsqp = max_violation(x_slsqp, n)
+        if viol_slsqp < 1e-10:
+            return x_slsqp, metric_slsqp
+
+    # Return penalty result if close to feasible
     if viol_pen < 1e-6:
         return x_penalty, metric_penalty
 
