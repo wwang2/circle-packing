@@ -1,15 +1,38 @@
 ---
 strategy: deep-refinement (SLSQP + CMA-ES + basin-hopping + subgroup optimization)
-status: complete
+status: in-progress
 eval_version: v1
-metric: 2.8426687475
+metric: 2.9365262667
 issue: 11
 parent: diffevo-001
 ---
 
-# refine-n30-001: Deep Refinement of n=30 Circle Packing
+# refine-n30-001: Deep Refinement of n=30 and n=32 Circle Packing
 
-## Results
+## N=32 Results
+
+| Step | Metric | Valid | Notes |
+|------|--------|-------|-------|
+| Initial (diffevo-001) | 2.9365262667 | Yes | Parent solution |
+| SLSQP ftol=1e-15 | 2.9365262667 | Yes | No improvement (rigid packing) |
+| Perturbation + SLSQP (80 tries) | 2.9365262667 | -- | No improvement |
+| Single-circle reposition | 2.9365262667 | -- | No improvement |
+| Swap optimization | 2.9365262667 | -- | No improvement |
+| Subgroup optimize (3-6 groups) | 2.9365262667 | -- | No improvement |
+| Augmented Lagrangian | 2.9365262667 | -- | No improvement |
+| trust-constr | 2.9365262667 | -- | No improvement |
+| Topology search (50/457 so far) | 2.9365262667 | -- | No better topology found yet |
+
+**N=32 Current: 2.9365262667** (same as diffevo-001, SOTA is 2.939+)
+
+### Contact Analysis (N=32)
+- 77 circle-circle contacts
+- 20 circle-wall contacts
+- **97 total contacts > 96 variables (32 x 3)**
+- **DOF = -1**: Over-constrained rigid packing
+- The only way to improve is finding a completely different contact graph topology
+
+## N=30 Results
 
 | Step | Metric | Valid | Notes |
 |------|--------|-------|-------|
@@ -22,7 +45,7 @@ parent: diffevo-001
 | CMA-ES (small+large sigma) | 2.8426687475 | -- | No improvement |
 | Subgroup coordinate descent | 2.8426687475 | -- | No improvement |
 
-**Final: 2.8426687475** (improvement: +6.03e-05 over parent, beats Cantrell 2011 SOTA of 2.842+)
+**N=30 Final: 2.8426687475** (improvement: +6.03e-05 over parent, beats Cantrell 2011 SOTA of 2.842+)
 
 ## Approach
 
