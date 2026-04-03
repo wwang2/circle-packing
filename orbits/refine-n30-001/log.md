@@ -1,6 +1,6 @@
 ---
 strategy: deep-refinement (SLSQP + CMA-ES + basin-hopping + subgroup optimization)
-status: in-progress
+status: stuck
 eval_version: v1
 metric: 2.9365262667
 issue: 11
@@ -47,7 +47,21 @@ parent: diffevo-001
 
 **N=30 Final: 2.8426687475** (improvement: +6.03e-05 over parent, beats Cantrell 2011 SOTA of 2.842+)
 
-## Approach
+## N=32 Approach
+
+1. Loaded diffevo-001's n=32 solution (2.9365262667)
+2. SLSQP with ftol=1e-15, maxiter=20000 -- no improvement
+3. Perturbation + SLSQP (80 trials, sigma 0.001-0.05) -- no improvement
+4. Single-circle repositioning (80x80 grid search) -- no improvement
+5. Swap optimization (100 random pair swaps) -- no improvement
+6. Subgroup coordinate descent (groups of 3-6, 30 iters each) -- no improvement
+7. Augmented Lagrangian method -- converged to same value
+8. trust-constr with 10000 maxiter -- no improvement
+9. Topology search: 457 diverse starts (greedy, hex, ring, perturb, symmetric) -- in progress
+10. Basin-hopping with 5 seeds, 150 iterations each -- in progress
+11. Differential evolution -- in progress
+
+## N=30 Approach
 
 1. Loaded diffevo-001's n=30 solution (2.8426084050)
 2. Applied SLSQP with progressively tighter tolerances (1e-10 to 1e-15)
@@ -58,26 +72,29 @@ parent: diffevo-001
 7. CMA-ES with small sigma (0.001-0.01) and large sigma (0.05-0.2)
 8. Subgroup coordinate descent (optimize 3-6 circles at a time)
 
-## Key Finding: 0 Degrees of Freedom
+## Key Findings: Rigid Packings
 
-Contact analysis reveals this is a **rigid packing**:
-- 70 circle-circle contacts
-- 20 circle-wall contacts
-- **90 total contacts = 90 variables (30 x 3)**
-- **DOF = 0**: No continuous improvement is possible within this topology
+### N=30: DOF = 0 (exactly constrained)
+- 70 circle-circle contacts + 20 circle-wall contacts = 90 total
+- 90 contacts = 90 variables (30 x 3) => DOF = 0
 
-This explains why every optimizer converges to the same value. The only way to improve would be to find an entirely different contact graph topology with higher sum of radii.
+### N=32: DOF = -1 (over-constrained)
+- 77 circle-circle contacts + 20 circle-wall contacts = 97 total
+- 97 contacts > 96 variables (32 x 3) => DOF = -1
+
+Both are rigid packings where no local continuous improvement is possible.
+The only way to improve is to find a fundamentally different contact graph topology.
 
 ## What Worked
 
-- SLSQP with tight ftol (1e-13 to 1e-15) found the last +6e-05 improvement
-- The parent solution from diffevo-001 was already in an excellent basin
+- N=30: SLSQP with tight ftol found +6e-05 improvement
+- Contact analysis explains why all methods converge to same value
 
 ## What Did Not Work
 
-- Basin-hopping found slightly better penalty-objective values but could not make them feasible
-- CMA-ES, multi-start, subgroup optimization all converged to the same point
-- No alternative topology found that beats this one across 50+ diverse initializations
+- For both n=30 and n=32: all local methods converge to exact same point
+- Basin-hopping, CMA-ES, multi-start, subgroup optimization all fail to escape
+- 50+ diverse topology starts (n=32, in progress with 457 total) have not found a better basin
 
 ## Seeds
 
@@ -85,3 +102,5 @@ This explains why every optimizer converges to the same value. The only way to i
 - Basin-hopping: seeds 42, 123, 456, 789, 1337
 - CMA-ES: seeds 42, 123, 456, 789
 - Multi-start: seeds 0-49
+- Topology search: seed 42 (n=32)
+- Perturbation: seed 42 (n=32)
