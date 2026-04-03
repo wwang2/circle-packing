@@ -3,8 +3,12 @@
 cd "$(dirname "$0")"
 cd ../..  # repo root
 
-echo "=== Phase 1: Genetic Topology Search ==="
-uv run python orbits/gentopo-001/gentopo_search.py
+echo "=== v4: Fast SLSQP (2000 starts) ==="
+uv run python orbits/gentopo-001/v4_fast_slsqp.py
+
+echo ""
+echo "=== v9: Discrete Topology Search ==="
+uv run python orbits/gentopo-001/v9_discrete_topo.py
 
 echo ""
 echo "=== Evaluate solution ==="

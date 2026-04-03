@@ -1,6 +1,6 @@
 ---
 strategy: genetic-topology-search
-status: in-progress
+status: complete
 eval_version: v1
 metric: 2.6359830849
 issue: 9
@@ -10,24 +10,41 @@ parent: topo-001
 ## Genetic Topology Search for n=26
 
 ### Result
-**metric=2.6359830849** (matches known best, improvement of 9.52e-12 in precision only).
+**metric=2.6359830849** -- matches known best. No alternative topology found.
 
-After 3000+ optimization attempts across 7 different strategies, NO alternative topology was found with a higher metric. Every approach converges to the same contact graph basin.
+After 5000+ optimization attempts across 9 strategies (continuous and discrete), no contact graph topology was found with a higher sum of radii than the known optimum. This strongly suggests the known solution is the global optimum for n=26.
 
 ### Approach
-Exhaustive search for alternative topological basins using:
-1. **v4: Fast SLSQP** (2000 perturbed starts with analytical Jacobian) - found 397 "unique" topologies, all at metric <= 2.6360
-2. **v5: Differential Evolution** (100 population, 500 generations) - converges to same basin
-3. **v6: Constructive** (Apollonian, biscuit patterns, symmetry, size reshuffling) - best alternative: 2.6099 (d4 symmetry)
-4. **v7: Basin Hopping + Dual Annealing** - in progress
-5. **topo_jump: Break contacts + re-optimize** - 200 attempts, all return to same topology
+Exhaustive search for alternative topological basins using both continuous optimization and discrete topology enumeration.
 
 ### What Happened
-The n=26 optimum basin is extraordinarily deep and wide. Every optimization method, regardless of initialization, converges to the SAME contact graph topology:
-- 58 circle-circle contacts + 20 wall contacts = 78 active constraints = 78 variables (zero DOF)
-- Even with perturbation strengths up to 0.5 (half the unit square), SLSQP returns to this basin
-- DE, basin hopping, dual annealing all converge to the same topology
-- The only topologies with metric > 2.60 all share this same contact graph
+
+**Continuous methods (v4-v8):**
+- v4: 2000 perturbed SLSQP starts with analytical Jacobian -- 397 unique fingerprints, all in same basin
+- v5: Differential evolution (100 pop, 500 gen) -- converges to same basin
+- v6: Constructive (Apollonian, biscuit, symmetry, reshuffling) -- best alternative: 2.6286
+- v7: Basin hopping + dual annealing -- all step sizes return to same basin or much worse
+- v8: KKT refinement iterations -- confirms machine-precision optimality
+
+**Discrete topology search (v9):**
+- Enumerated 1591 topological variants: swap 1, 2, or 3 contacts (circle-circle and wall)
+- Only 8/1591 variants produced solvable KKT systems
+- All 8 solutions had metric <= known best
+- The 8 solvable variants were all single-contact swaps
+
+**Key evidence for optimality:**
+- 78 active constraints = 78 variables (zero DOF, fully rigid)
+- All dual variables strictly positive (range [0.021, 0.950])
+- KKT residual = 8.8e-16 (machine precision)
+- Basin of attraction covers perturbations up to 50% of the unit square
+- Closest non-contact gap is 0.014 (circles 8,18); all others > 0.12
+
+### What I Learned
+- The n=26 packing at metric=2.6360 is almost certainly the global optimum
+- The basin of attraction is enormous -- no continuous optimizer can escape it
+- Discrete topology changes mostly produce unsolvable systems (99.5% failure rate)
+- The few solvable alternative topologies all have lower metric
+- Beating this requires either (a) a fundamentally new mathematical insight or (b) a combinatorial search over much more distant topologies
 
 ### Seeds
 Primary: 42. Phase offsets: +100, +200, +300.
@@ -37,6 +54,11 @@ Primary: 42. Phase offsets: +100, +200, +300.
 |---|----------|--------|-------|
 | 1 | v4: Fast SLSQP (2000) | 2.6359830849 | 397 unique fingerprints, all same basin |
 | 2 | v5: Diff Evolution | 2.6359830849 | 137 candidates polished, same basin |
-| 3 | v6: Constructive | 2.6099 best alt | Apollonian, biscuit, symmetry all worse |
+| 3 | v6: Constructive | 2.6286 best alt | Apollonian, biscuit, symmetry all worse |
 | 4 | topo_jump: Break contacts | 2.6359830849 | 200 attempts, 0 new topologies |
-| 5 | v7: Basin hopping | in progress | |
+| 5 | v7: Basin hopping | 2.6359830849 | All step sizes return to same basin |
+| 6 | v8: KKT refinement | 2.6359830849 | Confirms machine-precision optimality |
+| 7 | v9: Discrete topo swap-1 | 2.6359830849 | 8/291 solvable, 0 better |
+| 8 | v9: Discrete topo swap-2 | 2.6359830849 | 0/500 solvable from swap-2 |
+| 9 | v9: Discrete topo swap-3 | 2.6359830849 | 0/500 solvable from swap-3 |
+| 10 | v9: Wall+circle swap | 2.6359830849 | 0/300 solvable |
