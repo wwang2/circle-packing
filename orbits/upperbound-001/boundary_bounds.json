@@ -1,0 +1,90 @@
+{
+  "1": {
+    "fejes_toth": 0.537284965911771,
+    "oler_equal": 0.48098557164665395,
+    "oler_inner_parallel": 0.4809362936293629,
+    "oler_oler_sausage": 0.5,
+    "oler_steiner": 0.5,
+    "oler_lp": 0.01865551839464883
+  },
+  "2": {
+    "fejes_toth": 0.7598356856515927,
+    "oler_equal": 0.7167303052807119,
+    "oler_inner_parallel": 0.7166394639463946,
+    "oler_oler_sausage": 1.0,
+    "oler_steiner": 1.0,
+    "oler_lp": 0.03731103678929766
+  },
+  "3": {
+    "fejes_toth": 0.9306048591020997,
+    "oler_equal": 0.8943988810670659,
+    "oler_inner_parallel": 0.8942532253225322,
+    "oler_oler_sausage": 1.263001200120012,
+    "oler_steiner": 1.5,
+    "oler_lp": 0.05596655518394649
+  },
+  "4": {
+    "fejes_toth": 1.074569931823542,
+    "oler_equal": 1.0427557798364981,
+    "oler_inner_parallel": 1.0426226622662265,
+    "oler_oler_sausage": 1.4013397339733973,
+    "oler_steiner": 2.0,
+    "oler_lp": 0.07462207357859532
+  },
+  "5": {
+    "fejes_toth": 1.2014057070673771,
+    "oler_equal": 1.1726975553211976,
+    "oler_inner_parallel": 1.1725272527252724,
+    "oler_oler_sausage": 1.524107910791079,
+    "oler_steiner": 2.2085548554855485,
+    "oler_lp": 0.09327759197324414
+  },
+  "10": {
+    "fejes_toth": 1.6990442448471226,
+    "oler_equal": 1.6783763446441387,
+    "oler_inner_parallel": 1.6783238323832383,
+    "oler_oler_sausage": 2.0116891689168916,
+    "oler_steiner": 2.526209620962096,
+    "oler_lp": 0.1865551839464883
+  },
+  "15": {
+    "fejes_toth": 2.080895725143909,
+    "oler_equal": 2.0639175402690952,
+    "oler_inner_parallel": 2.0638493849384933,
+    "oler_oler_sausage": 2.3894794479447943,
+    "oler_steiner": 2.8468586858685865,
+    "oler_lp": 0.27983277591973243
+  },
+  "20": {
+    "fejes_toth": 2.4028114141347543,
+    "oler_equal": 2.388062856794734,
+    "oler_inner_parallel": 2.3874927492749274,
+    "oler_oler_sausage": 2.7078827882788277,
+    "oler_steiner": 3.137065706570657,
+    "oler_lp": 0.3731103678929766
+  },
+  "26": {
+    "fejes_toth": 2.7396265255441543,
+    "oler_equal": 2.7266636927366084,
+    "oler_inner_parallel": 2.726159415941594,
+    "oler_oler_sausage": 3.0427566756675666,
+    "oler_steiner": 3.45018101810181,
+    "oler_lp": 0.4850434782608696
+  },
+  "30": {
+    "fejes_toth": 2.942830956382712,
+    "oler_equal": 2.930751801859501,
+    "oler_inner_parallel": 2.9299789978997897,
+    "oler_oler_sausage": 3.2443804380438044,
+    "oler_steiner": 3.641125112511251,
+    "oler_lp": 0.5596655518394649
+  },
+  "32": {
+    "fejes_toth": 3.0393427426063706,
+    "oler_equal": 3.027642655228159,
+    "oler_inner_parallel": 3.026299429942994,
+    "oler_oler_sausage": 3.340900490049005,
+    "oler_steiner": 3.7337525752575256,
+    "oler_lp": 0.5969765886287626
+  }
+}
