@@ -1,14 +1,18 @@
 #!/bin/bash
 # Reproduce NLP-001 circle packing optimization
-# Usage: bash orbits/nlp-001/run.sh [n] [num_inits]
+# Best result: n=26, metric=2.63598 (matches OpenEvolve SOTA)
+# Usage: bash orbits/nlp-001/run.sh
 set -e
 cd "$(dirname "$0")/../.."
 
-N=${1:-26}
-INITS=${2:-80}
+echo "=== NLP-001: OpenEvolve-style 3-stage optimizer for n=26 ==="
+echo "This takes ~20-25 minutes with 132 initializations + basin-hopping."
+uv run python orbits/nlp-001/optimizer_v6.py "orbits/nlp-001/solution_n26.json"
 
-echo "=== NLP-001: Multi-start NLP optimizer for n=$N ==="
-uv run python orbits/nlp-001/optimizer.py "$N" "orbits/nlp-001/solution_n${N}.json"
 echo ""
 echo "=== Evaluating ==="
-uv run python research/eval/evaluator.py "orbits/nlp-001/solution_n${N}.json"
+uv run python research/eval/evaluator.py "orbits/nlp-001/solution_n26.json"
+
+echo ""
+echo "=== Generating figure ==="
+uv run python orbits/nlp-001/visualize.py
