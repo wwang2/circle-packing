@@ -1,20 +1,27 @@
 #!/bin/bash
-# Reproduce SA circle packing experiment for n=26
-# Usage: bash orbits/sa-001/run.sh [n] [sa_iters] [seed]
+# Reproduce circle packing experiment for n=26
+# Usage: bash orbits/sa-001/run.sh [num_trials] [seed]
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-N="${1:-26}"
-SA_ITERS="${2:-1500000}"
-SEED="${3:-42}"
+NUM_TRIALS="${1:-80}"
+SEED="${2:-42424}"
 
 cd "$REPO_DIR"
 
-echo "Running SA optimizer: n=$N, iters=$SA_ITERS, seed=$SEED"
-uv run python "$SCRIPT_DIR/optimizer.py" "$N" "$SA_ITERS" "$SEED"
+echo "=== Phase 1: Multi-start three-stage optimization ==="
+uv run python "$SCRIPT_DIR/optimizer_v4.py" "$NUM_TRIALS" "$SEED"
 
 echo ""
-echo "Evaluating solution..."
-uv run python research/eval/evaluator.py "$SCRIPT_DIR/solution_n${N}.json"
+echo "=== Phase 2: Perturbation refinement ==="
+uv run python "$SCRIPT_DIR/improve.py" 100 88888
+
+echo ""
+echo "=== Phase 3: Visualization ==="
+uv run python "$SCRIPT_DIR/plot_solution.py"
+
+echo ""
+echo "=== Evaluation ==="
+uv run python research/eval/evaluator.py "$SCRIPT_DIR/solution_n26.json"
