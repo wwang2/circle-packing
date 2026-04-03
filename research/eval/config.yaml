@@ -1,0 +1,36 @@
+# Circle packing evaluation configuration
+metric:
+  name: sum_of_radii
+  direction: maximize
+  constraint_tolerance: 1.0e-10
+
+sanity_checks:
+  - name: "optimal n=1"
+    description: "Single circle centered, r=0.5 — provably optimal"
+    input: "research/eval/baselines/trivial_n1.json"
+    expected_range: [0.5, 0.5]
+
+  - name: "n=4 corners"
+    description: "4 equal circles in corners, r=0.25 each — valid but suboptimal"
+    input: "research/eval/baselines/trivial_n4.json"
+    expected_range: [0.99, 1.01]
+
+  - name: "overlapping circles"
+    description: "Two overlapping circles — must be rejected"
+    input: "research/eval/baselines/bad_overlap.json"
+    expected: error
+
+  - name: "circle outside square"
+    description: "Circle extends past boundary — must be rejected"
+    input: "research/eval/baselines/bad_outside.json"
+    expected: error
+
+  - name: "baseline n=10"
+    description: "Optimized baseline for n=10 — should be reasonable"
+    input: "research/eval/baselines/baseline_n10.json"
+    expected_range: [1.2, 1.6]
+
+  - name: "baseline n=26"
+    description: "Optimized baseline for n=26 — should be reasonable"
+    input: "research/eval/baselines/baseline_n26.json"
+    expected_range: [1.5, 2.7]
