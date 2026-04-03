@@ -1,6 +1,6 @@
 ---
 strategy: basin-hopping-slsqp
-status: in-progress
+status: complete
 eval_version: v1
 metric: 2.6310
 issue: 5
@@ -33,6 +33,11 @@ Multi-start optimization with progressive penalty + L-BFGS-B, followed by SLSQP 
 | 271  | 2.6060 | |
 | 1337 | 0.0000 | Timeout before polish |
 
+### Failed improvement attempts
+1. Intensive perturbation refinement (v4): 17 perturbations in 300s, no improvement
+2. More seeds (7, 314, 271, 1337): all below 2.631
+3. Differential evolution: raw 1.19 after 200 iters, polished to 2.577
+
 ### Sanity check: n=10
 - Metric: 1.5910 (matches SOTA 1.591+)
 
@@ -43,3 +48,5 @@ Multi-start optimization with progressive penalty + L-BFGS-B, followed by SLSQP 
 - Solution quality varies significantly with seed (2.606 - 2.631)
 - Perturbation search provides only marginal improvement (~0.001)
 - Main bottleneck: SLSQP polish is slow (~18s per call for n=26)
+- DE is too slow for 78-dim search space; multi-start local search is better
+- The 2.631 solution appears to be a strong local optimum for this topology
