@@ -2,7 +2,7 @@
 strategy: differential-evolution + basin-hopping
 status: complete
 eval_version: v1
-metric: 2.9365 (n=32)
+metric: 2.8426 (n=30, beats SOTA), 2.9365 (n=32)
 issue: 8
 parent: null
 ---
@@ -15,8 +15,10 @@ parent: null
 |---|--------|------|-----------|-------|
 | 10 | 1.5879 | 1.591 | 99.8% | 42 |
 | 28 | 2.7377 | 2.737 | 100.0% | 42+refine:123 |
-| 30 | 2.8369 | 2.842 | 99.8% | 42+refine:123 |
+| 30 | **2.8426** | 2.842 | **100.1%** | 42+refine:123+456 |
 | 32 | 2.9365 | 2.939 | 99.9% | 42+refine:123 |
+
+n=30 beats SOTA (2.842 -> 2.8426).
 
 ## Approach
 
@@ -32,6 +34,7 @@ parent: null
 - Basin-hopping with diverse perturbation types (especially rotate and mixed) found improvements
 - For n=28, the "rotate" perturbation at strength 0.30 found the best solution
 - For n=32, "position" perturbation at strength 0.05 improved from 2.929 to 2.937
+- For n=30, systematic single-circle repositioning (refine2) pushed 2.837 to 2.843, beating SOTA
 
 ## What Did Not Work
 
