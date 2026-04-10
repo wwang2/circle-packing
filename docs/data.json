@@ -1,0 +1,343 @@
+{
+  "campaign": {
+    "title": "circle-packing",
+    "problem": "Pack 26 circles of specified radii in [0,1]^2, maximizing sum of radii. No overlaps, all circles must be entirely inside the square.",
+    "eval_version": "eval-v1",
+    "repo": "wwang2/circle-packing",
+    "best": {
+      "orbit": "mobius-001",
+      "metric": 2.6359830865,
+      "direction": "maximize"
+    },
+    "metric_description": "Sum of all circle radii in the packing. Higher is better.",
+    "eval_methodology": {
+      "version": "eval-v1",
+      "summary": "Validates circle packing: no overlaps (tolerance 1e-10), all circles inside [0,1]^2, returns sum of radii.",
+      "stages": [
+        "constraint validation",
+        "metric computation"
+      ],
+      "baseline": "trivial n=1 (r=0.5), n=4 corners (sum=1.0), n=10 (~1.59), n=26 (~2.0)",
+      "params": "constraint_tolerance=1e-10"
+    },
+    "references": [
+      {
+        "cite": "AlphaEvolve",
+        "note": "SOTA ~2.635 for n=26 circle packing"
+      },
+      {
+        "cite": "OpenEvolve",
+        "note": "Reference implementation for circle packing evaluation"
+      }
+    ],
+    "timeline": [
+      {
+        "at": "2026-04-03",
+        "author": "wwang2",
+        "text": "**\ud83d\uddf3\ufe0f Debate: Problem Statement Review**\n\n| Agent | Verdict | Confidence | Key Point |\n|-------|---------|------------|-----------|\n| 1 | SUPPORT | HIGH | Well-defined; confirmed heterogeneous radii |\n| 2 | SUPPORT | HIGH | SOTA values are lower bounds, beating them is plausible |\n| 3 | SUPPORT | HIGH | Specific, falsifiable target; no fundamental gaps |\n\n**UNANIMOUS SUPPORT (3/3)** \u2014 proceeding to eval construction.",
+        "comment_url": "https://github.com/wwang2/circle-packing/issues/1#issuecomment-4181921832"
+      },
+      {
+        "at": "2026-04-03",
+        "author": "wwang2",
+        "text": "**\ud83d\uddf3\ufe0f Debate: Eval Freeze Gate**\n\n| Agent | Verdict | Reasoning |\n|-------|---------|-----------|\n| 1 | SUPPORT | Metric well-defined, deterministic, adversarial bugs found and fixed |\n| 2 | SUPPORT | Real bugs caught and properly fixed, math is exact for near-optimal packings |\n| 3 | SUPPORT | Core math sound, review process validated by finding real issues |\n\n**UNANIMOUS SUPPORT (3/3) \u2014 frozen as eval-v1.**\n\nTag: `eval-v1` ([10cbb82](https://github.com/wwang2/circle-packing/commit/10cbb82))",
+        "comment_url": "https://github.com/wwang2/circle-packing/issues/1#issuecomment-4181922369"
+      }
+    ]
+  },
+  "orbits": [
+    {
+      "name": "basin-001",
+      "status": "promising",
+      "strategy": "basin-hopping-slsqp",
+      "metric": 2.631,
+      "issue": 5,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/basin-001:** Metric improved: 1.994 -> 2.6310 (+31.9%)\n\n## Approach\nMulti-start optimization with progressive penalty (L-BFGS-B) + SLSQP polish for exact constraint satisfaction.\n\n## Key results\n- n=26: **2.6310** (valid, evaluated) -- best seed=123\n- n=10: 1.5910 (matches SOTA)\n- 7 seeds tested, best found on seed=123\n- Gap to SOTA (~2.636): ~0.005\n\n## What worked\n- Progressive penalty schedule (50 -> 20000) with L-BFGS-B\n- SLSQP polish converts tiny violations (~1e-5) to exact feasibility\n- Greedy initialization performs best for finding good topologies\n\n## What didn't work\n- Perturbation-based refinement: marginal improvement only (~0.001)\n- Differential evolution: too slow for 78-dimensional search space\n- The 2.631 solution is a strong local optimum\n\nBranch: `orbit/basin-001` | Log: `orbits/basin-001/log.md`",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/5#issuecomment-4182395599"
+        }
+      ]
+    },
+    {
+      "name": "cmaes-001",
+      "status": "promising",
+      "strategy": "cma-es-global-optimization",
+      "metric": 2.635983085,
+      "issue": 6,
+      "parents": [
+        "sa-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/cmaes-001:** CMA-ES exploration complete. Tried 5 optimizer variants (joint CMA-ES, position-only CMA-ES+LP, topology perturbation, multi-optimizer polish, micro-perturbation). All converge to same SOTA basin. Final metric: **2.6359830850** (matches parent sa-001). The n=26 optimum at ~2.6360 is an extremely deep local optimum -- CMA-ES with sigma up to 0.3, pop=300, and 15+ seeds cannot escape it. To beat SOTA likely requires discovering a fundamentally different packing topology.",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/6#issuecomment-4182649669"
+        }
+      ]
+    },
+    {
+      "name": "diffevo-001",
+      "status": "promising",
+      "strategy": "differential-evolution + basin-hopping",
+      "metric": 2.8426,
+      "issue": 8,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/diffevo-001:** Results for under-explored n values using L-BFGS-B penalty + basin-hopping refinement:\n\n| n | Metric | SOTA | % of SOTA |\n|---|--------|------|-----------|\n| 10 | 1.5879 | 1.591 | 99.8% |\n| 28 | 2.7377 | 2.737 | 100.0% |\n| 30 | 2.8369 | 2.842 | 99.8% |\n| 32 | 2.9365 | 2.939 | 99.9% |\n\nKey approach: multi-start L-BFGS-B with analytical gradient (0.3s/start for n=32) + basin-hopping with diverse perturbations (position, radius, swap, shake, rotate).\n\nBranch: orbit/diffevo-001 | Log: orbits/diffevo-001/log.md",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/8#issuecomment-4182492000"
+        },
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/diffevo-001:** n=30 BEATS SOTA: 2.842 -> 2.8426\n\nSystematic single-circle repositioning found a better arrangement. The approach moves each circle (starting with smallest) to identified gap locations or random positions, then re-optimizes the full packing.\n\nUpdated results:\n| n | Metric | SOTA | Status |\n|---|--------|------|--------|\n| 28 | 2.7377 | 2.737 | Matches SOTA |\n| 30 | **2.8426** | 2.842 | **Beats SOTA** |\n| 32 | 2.9365 | 2.939 | 99.9% of SOTA |",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/8#issuecomment-4182510210"
+        }
+      ]
+    },
+    {
+      "name": "gentopo-001",
+      "status": "promising",
+      "strategy": "genetic-topology-search",
+      "metric": 2.6359830849,
+      "issue": 9,
+      "parents": [
+        "topo-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/gentopo-001:** Complete. 5000+ optimization attempts across 9 strategies (fast SLSQP, differential evolution, constructive, basin hopping, dual annealing, KKT refinement, discrete topology enumeration) all converge to the same basin. Metric: 2.6359830849 (matches known best). Discrete topology search tried 1591 contact-graph variants; only 8/1591 were solvable, none better. This strongly confirms the n=26 optimum is the global optimum.",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/9#issuecomment-4183708593"
+        }
+      ]
+    },
+    {
+      "name": "jax-soft-001",
+      "status": "exploring",
+      "strategy": "jax-soft-body-annealing",
+      "metric": 2.6359830849,
+      "issue": 12,
+      "parents": [
+        "topo-001"
+      ],
+      "issue_comments": []
+    },
+    {
+      "name": "mobius-001",
+      "status": "winner",
+      "strategy": "mobius-inversive-geometry",
+      "metric": 2.6359830865,
+      "issue": 14,
+      "parents": [
+        "topo-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/mobius-001 (session 2):** Exhaustive topology search for n=26 confirms 2.6359830865 is the global optimum (5000+ configs, 8 strategies, all converge to same basin). New n=32 solution found: **2.9395727728** via multi-start + basin hopping + tolerance squeeze. Branch: orbit/mobius-001",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/14#issuecomment-4185038500"
+        },
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/mobius-001 (session 2 final):** Multi-n results:\n- n=10: **1.5910128528** (matches known best ~1.591)\n- n=20: **2.3011228351** (matches known best ~2.301)\n- n=26: **2.6359830865** (confirmed global optimum, 5000+ configs all same basin)\n- n=30: **2.8390768878** (improved from 2.8387, known best ~2.842)\n- n=32: **2.9395727728** (new result, known best ~2.939)\n\nBranch: orbit/mobius-001 | Log: orbits/mobius-001/log.md",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/14#issuecomment-4185149161"
+        }
+      ]
+    },
+    {
+      "name": "nlp-001",
+      "status": "promising",
+      "strategy": "multi-start-nlp-slsqp",
+      "metric": 2.6359830823,
+      "issue": 4,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/nlp-001:** Metric improved: 1.994 (baseline) -> 2.63598 (n=26). Ring-pattern initialization from OpenEvolve + 3-stage optimization (L-BFGS-B positions -> SLSQP radii -> SLSQP joint) matches the OpenEvolve SOTA. Key insight: the concentric ring pattern (1 center + 8 inner + 12 middle + 4 corners + 1 extra) finds the right topological basin. Basin-hopping provided marginal additional improvement.",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/4#issuecomment-4182197584"
+        }
+      ]
+    },
+    {
+      "name": "push-n30-001",
+      "status": "promising",
+      "strategy": "basin-hopping-n30",
+      "metric": 2.8426687475,
+      "issue": 17,
+      "parents": [
+        "refine-n30-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-04",
+          "body": "## orbit/push-n30-001: Exhaustive search for n=30\n\n**Result: metric = 2.8426687475** (valid, no significant improvement over parent)\n\n### Strategies attempted (9 total):\n1. SLSQP refinement - already locally optimal\n2. Basin-hopping (15 seeds x 500 hops, step=0.15) - tiny numerical gains only\n3. Basin-hopping large steps (5 seeds x 400 hops, step=0.25) - no improvement\n4. CMA-ES (10 configs, sigma=0.05-0.3) - all converged back to same topology\n5. Remove-and-reinsert (all 30 circles) - no improvement\n6. Multi-start from scratch (200 starts) - best ~2.798\n7. Radical search (hex grids, K-big+rest-small, greedy, random) - best ~2.825\n8. Differential evolution (10 seeds) - best ~2.80\n9. Final aggressive BH (15 seeds, high temp) - no improvement\n\n### Conclusion\nThe n=30 solution is at a **rigid 0-DOF local optimum**. All perturbation-based and restart-based methods converge back to the same contact graph topology. No genuinely different topology was found. The SOTA claim of \"2.842+\" is matched.\n\nBranch pushed: `orbit/push-n30-001`",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/17#issuecomment-4185849156"
+        }
+      ]
+    },
+    {
+      "name": "push-n32-001",
+      "status": "promising",
+      "strategy": "aggressive-basin-hopping-n32",
+      "metric": 2.9395727728,
+      "issue": 15,
+      "parents": [
+        "mobius-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "## push-n32-001: Massive basin-hopping for n=32\n\n**Result: 2.9395727728** (no improvement over starting solution)\n\n### What was tried\n- **Phase 1**: Basin-hopping with penalty L-BFGS-B + analytical gradients (20 seeds x 500 hops = 10,000 iterations) - 407s\n- **Phase 2**: Multi-start progressive penalty L-BFGS-B + SLSQP polish (300 starts) - 471s\n- **Phase 3**: Fine-grained SLSQP local search (500 trials) - 355s\n- **Phase 4**: Swap neighborhood search (200 trials) - 120s\n- **Final**: SLSQP polish with 20k iterations\n\nTotal: ~23 minutes, 10,000+ basin-hopping hops + 1,000 multi-start trials.\n\n### Conclusion\nThe current solution at **2.9395727728** is a strong local optimum. No improvement was found across any strategy. This matches the SOTA target of \"2.939+\" for n=32.\n\nBranch: `orbit/push-n32-001`",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/15#issuecomment-4185539143"
+        }
+      ]
+    },
+    {
+      "name": "random-topo-001",
+      "status": "promising",
+      "strategy": "random-topology-sampling",
+      "metric": 2.6359830849,
+      "issue": 10,
+      "parents": [
+        "topo-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/random-topo-001:** Search complete. 2500+ configurations across 3 rounds (random inits, perturbations, Apollonius gaskets, stripes, spirals, Cantrell-style structures). Found 44+ distinct topologies -- all converge to same basin (2.6360) or worse. Best alternative topology: 2.6359773948. No improvement found. Confirms n=26 optimum is likely globally optimal.",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/10#issuecomment-4183753072"
+        }
+      ]
+    },
+    {
+      "name": "refine-n30-001",
+      "status": "dead-end",
+      "strategy": "deep-refinement",
+      "metric": 2.9365262667,
+      "issue": 11,
+      "parents": [
+        "diffevo-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/refine-n30-001:** Refined n=30 from 2.8426084050 to **2.8426687475** (+6.03e-05).\n\nKey finding: the solution is a **rigid packing with 0 degrees of freedom** (90 contacts = 90 variables). 70 circle-circle + 20 wall contacts. No continuous improvement possible within this topology.\n\nExhaustive search with SLSQP, basin-hopping, CMA-ES, multi-start (50 topologies), COBYLA, trust-constr, and subgroup coordinate descent all converge to the same value.\n\nBranch: orbit/refine-n30-001 | Log: orbits/refine-n30-001/log.md",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/11#issuecomment-4183643413"
+        },
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/refine-n30-001 (n=32 work):** Attempting to close the n=32 gap (current: 2.9365 vs SOTA 2.939+).\n\n**Contact analysis reveals an over-constrained rigid packing (DOF=-1):**\n- 77 circle-circle + 20 circle-wall = 97 contacts > 96 variables\n- All local refinement methods (SLSQP, augmented Lagrangian, trust-constr, perturbation, repositioning, subgroup optimization) converge to exact same value: 2.9365262667\n- Topology search running (50/457 diverse starts polished, none better so far)\n- Need fundamentally different contact graph topology to improve\n\nStill running: topology search (457 starts), augmented Lagrangian (DE + dual annealing), main pipeline (basin-hopping + multi-start). Will update if any breakthrough.",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/11#issuecomment-4184888756"
+        }
+      ]
+    },
+    {
+      "name": "sa-001",
+      "status": "promising",
+      "strategy": "multi-start-three-stage-optimization",
+      "metric": 2.6359830849,
+      "issue": 3,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/sa-001:** Metric improved: 1.994 (baseline) -> 2.63598 (n=26, valid)\n\nApproach: Multi-start three-stage optimization (position L-BFGS-B -> radii SLSQP -> joint SLSQP) with 7 initialization patterns. Best pattern: hybrid (center + concentric rings + corners). Matches OpenEvolve SOTA.\n\nBranch: orbit/sa-001 | Log: orbits/sa-001/log.md | Status: complete",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/3#issuecomment-4182371086"
+        }
+      ]
+    },
+    {
+      "name": "sweep-001",
+      "status": "promising",
+      "strategy": "sweep-unexplored-n-values",
+      "metric": null,
+      "issue": 16,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "## orbit/sweep-001: Under-explored n Values - Complete\n\nSolver: multi-start penalty L-BFGS-B + lightweight basin-hopping + greedy local search (120s budget per n).\n\n### Results\n\n| n  | Metric     | SOTA   | % SOTA |\n|----|-----------|--------|--------|\n| 24 | 2.4799216 | 2.530  | 98.0%  |\n| 25 | 2.5268842 | 2.587  | 97.7%  |\n| 27 | 2.5988993 | 2.685  | 96.8%  |\n| 29 | 2.7100503 | 2.790  | 97.1%  |\n| 31 | 2.7857263 | 2.889  | 96.4%  |\n\nAll solutions validated (evaluator confirms valid=True, tol=1e-10).\n\nBranch pushed: `orbit/sweep-001`",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/16#issuecomment-4185471325"
+        },
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "## sweep-002: Deep Refinement Results\n\nAll 5 solutions significantly improved. Gaps closed from 2-4% down to under 1%.\n\n| n | Before | After | SOTA | Gap Before | Gap After |\n|---|--------|-------|------|-----------|----------|\n| 24 | 2.4799 | **2.5244** | 2.530 | -2.0% | **-0.2%** |\n| 25 | 2.5269 | **2.5703** | 2.587 | -2.3% | **-0.6%** |\n| 27 | 2.5989 | **2.6682** | 2.685 | -3.2% | **-0.6%** |\n| 29 | 2.7101 | **2.7693** | 2.790 | -2.9% | **-0.7%** |\n| 31 | 2.7857 | **2.8629** | 2.889 | -3.6% | **-0.9%** |\n\n**Strategy:** Progressive penalty L-BFGS-B + SLSQP exact-constraint polish + diverse multi-start (hex/grid/ring/sunflower/greedy/random) + basin hopping with gradient polish. Two passes on n=29,31.\n\n**Key findings:**\n- SLSQP polish on warm starts gave big jumps (e.g. n=29: +0.049, n=24: +0.045)\n- Hex initialization often found competitive solutions from scratch\n- Basin hopping was useful for incremental gains but plateaued quickly\n- Remaining ~0.5-1% gaps likely require fundamentally different approaches (e.g. known optimal configurations, Voronoi-based methods)\n\nCommit: 5e84857 on `orbit/sweep-001`",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/16#issuecomment-4185565129"
+        }
+      ]
+    },
+    {
+      "name": "topo-001",
+      "status": "promising",
+      "strategy": "contact-graph-topology-search",
+      "metric": 2.6359830849,
+      "issue": 7,
+      "parents": [
+        "nlp-001"
+      ],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/topo-001:** Topology search complete. metric=2.6359830849 (matches current best, no improvement found).\n\n**Key finding:** KKT analysis confirms the known solution is a verified local optimum:\n- 78 active constraints (58 circle-circle + 20 wall) with 78 primal variables = **zero degrees of freedom**\n- All dual variables strictly positive (range [0.021, 0.950])\n- KKT residual = 1.03e-15 (machine precision)\n\n**What was tried (all converge to same basin):**\n- 500+ diverse initializations (rings, hex, random, Poisson, greedy, structural patterns)\n- Multiple optimizers: SLSQP, COBYLA, trust-constr, L-BFGS-B, dual_annealing\n- Basin hopping with topology-changing moves (200+ hops)\n- Remove-and-reinsert (all 26 circles individually)\n- Wall topology enumeration (200+ configurations)\n- KKT Newton refinement\n\n**Conclusion:** The current topology is an extremely deep, rigid basin. Beating 2.6360 requires finding a fundamentally different contact graph topology -- none of the explored alternatives came close (best alternative: 2.6265). The \"Tactical Maniac\" claim of 2.63593 with a \"novel arrangement\" may refer to a similar topology with slightly different numerical convergence, not a truly different contact graph.\n\nBranch: orbit/topo-001 | Log: orbits/topo-001/log.md",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/7#issuecomment-4182647886"
+        }
+      ]
+    },
+    {
+      "name": "upperbound-001",
+      "status": "promising",
+      "strategy": "convex-relaxation-upper-bound",
+      "metric": 2.7396,
+      "issue": 13,
+      "parents": [],
+      "issue_comments": [
+        {
+          "author": "wwang2",
+          "date": "2026-04-03",
+          "body": "**orbit-agent/upperbound-001:** Comprehensive upper bound analysis complete.\n\n**Best upper bound for n=26: 2.7396** (Fejes Toth hex density). Gap to known solution (2.636): 3.9%.\n\n### Exact bounds proven\n- n=1: 0.500 (containment SDP)\n- n=2: 0.586 (pair bound r1+r2 <= 2-sqrt(2))\n- n=4: 1.000 (top-4 sum <= 1.0)\n\n### Key findings\n- FT is the dominant bound for n >= 5. All SOCP/SDP relaxations reduce to FT when individual radii are small.\n- **Bug found**: Prior Oler SOCP bounds were invalid (missing linear 4r boundary term). Correctly applied, Oler gives a WEAKER bound than FT for sum-of-radii.\n- Grid LP/SOCP approaches suffer from relaxation gap.\n- Boundary waste analysis cannot tighten FT (Oler correction goes wrong direction).\n\n### What would be needed to beat FT\n1. Higher-order Lasserre SDP (order >= 2)\n2. Branch-and-bound with LP/SDP relaxations\n3. Problem-specific valid inequalities for many small circles\n\nBranch: orbit/upperbound-001 | Log: orbits/upperbound-001/log.md",
+          "images": [],
+          "url": "https://github.com/wwang2/circle-packing/issues/13#issuecomment-4184718480"
+        }
+      ]
+    }
+  ]
+}
