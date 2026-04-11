@@ -48,14 +48,14 @@ Recommended next orbit: **`voronoi-boundary-001`** — implement Fejes Tóth's b
 
 **Polynomial LP setup** (`poly.py`, `handelman_lp.py`):
 - 78 primal variables `(x, y, r)` for 26 disks
-- 130 linear containment constraints (`r ≥ 0`, `x ≥ r`, `1−x ≥ r`, `y ≥ r`, `1−y ≥ r`, `r ≤ 0.5` for each disk)
+- 156 linear containment constraints (6 per disk × 26: `r≥0`, `x≥r`, `1−x≥r`, `y≥r`, `1−y≥r`, `r≤0.5`) (`r ≥ 0`, `x ≥ r`, `1−x ≥ r`, `y ≥ r`, `1−y ≥ r`, `r ≤ 0.5` for each disk)
 - 325 quadratic non-overlap constraints
 - Handelman products enumerated via `itertools.combinations_with_replacement`
 - LP solved via `scipy.optimize.linprog` with HiGHS
 - Sparse COO → CSR matrix representation
 
 **Level-2 mode A stats:**
-- Number of linear product terms: ~8515 (`(130 + 2 − 1 choose 2)`)
+- Number of linear product terms: ~12,403 (`(156 + 2 − 1 choose 2)`)
 - Number of monomial equations: ~3160
 - Wall time: ~minutes (exact value not captured before session exhaustion)
 - UB = 8.667 (LP optimal, HiGHS status = optimal)
