@@ -1,0 +1,285 @@
+{
+  "baseline_sum_r": 2.635983086481036,
+  "n_active_total": 78,
+  "n_contacts": 58,
+  "n_walls": 20,
+  "sigma_min_R": 0.09071665747386441,
+  "sigma_max_R": 1.7645576456244423,
+  "kappa_R": 19.45130800407647,
+  "rank_R": 78,
+  "stationarity_residual": 8.060773300418625e-15,
+  "lambda_min": 0.02082560221562957,
+  "lambda_max": 0.9502508449621203,
+  "lambda_num_negative": 0,
+  "weakest_contact_disks": [
+    0,
+    7
+  ],
+  "weakest_contact_lambda": 0.02082560221562957,
+  "weak_neighbors_perturbed": [
+    8,
+    6,
+    1
+  ],
+  "stress_matrix_min_eig": -9.60085860679158,
+  "stress_matrix_max_eig": 8.94152124766379,
+  "stress_matrix_num_negative": 26,
+  "stress_matrix_eigs_head": [
+    -9.60085860679158,
+    -8.340435958651277,
+    -7.6012052630843945,
+    -6.9204378747635396,
+    -6.393213280282414,
+    -6.1681290469042995,
+    -5.799436963696163,
+    -5.426773986528105,
+    -5.2278048681755696,
+    -4.789079599235597
+  ],
+  "stress_matrix_eigs_tail": [
+    6.550334549276243,
+    6.550334549276247,
+    6.849690705598241,
+    6.849690705598252,
+    7.006594404359212,
+    7.006594404359225,
+    8.001734290289276,
+    8.001734290289292,
+    8.941521247663776,
+    8.94152124766379
+  ],
+  "flex_probe_n_trials": 30,
+  "flex_probe_n_valid": 6,
+  "flex_probe_best_sum_r": 2.6359830849176387,
+  "flex_probe_scales_tried": [
+    0.001,
+    0.01,
+    0.1
+  ],
+  "flex_probe_seeds_tried": [
+    1,
+    2,
+    3,
+    7,
+    13,
+    21,
+    42,
+    99,
+    123,
+    2026
+  ],
+  "flex_probe_results": [
+    {
+      "seed": 1,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.635983084917704,
+      "min_constraint": -9.71445146547012e-15
+    },
+    {
+      "seed": 2,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.6359830849176618,
+      "min_constraint": -5.3915205633359164e-15
+    },
+    {
+      "seed": 3,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.635983084917726,
+      "min_constraint": -7.230327447871332e-15
+    },
+    {
+      "seed": 7,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.63598308491766,
+      "min_constraint": -5.689893001203927e-15
+    },
+    {
+      "seed": 13,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.635983084917667,
+      "min_constraint": -5.773159728050814e-15
+    },
+    {
+      "seed": 21,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.635983084917712,
+      "min_constraint": -7.355227538141662e-15
+    },
+    {
+      "seed": 42,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.6359830849179744,
+      "min_constraint": -2.799149800836176e-14
+    },
+    {
+      "seed": 99,
+      "scale": 0.001,
+      "success": false,
+      "sum_r": 2.6359830849176675,
+      "min_constraint": -5.1486592766991635e-15
+    },
+    {
+      "seed": 123,
+      "scale": 0.001,
+      "success": true,
+      "sum_r": 2.635983084917578,
+      "min_constraint": -1.061650767297806e-15
+    },
+    {
+      "seed": 2026,
+      "scale": 0.001,
+      "success": true,
+      "sum_r": 2.63598308491759,
+      "min_constraint": -3.6914915568786455e-15
+    },
+    {
+      "seed": 1,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.635983084917789,
+      "min_constraint": -4.97241137153992e-14
+    },
+    {
+      "seed": 2,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.6359830849258987,
+      "min_constraint": -9.16024200936505e-13
+    },
+    {
+      "seed": 3,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.635983084917718,
+      "min_constraint": -7.174816296640074e-15
+    },
+    {
+      "seed": 7,
+      "scale": 0.01,
+      "success": true,
+      "sum_r": 2.6359830849176387,
+      "min_constraint": -4.73232564246473e-15
+    },
+    {
+      "seed": 13,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.6359830849177777,
+      "min_constraint": -9.296036163064514e-14
+    },
+    {
+      "seed": 21,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.6359830849177373,
+      "min_constraint": -5.132005931329786e-14
+    },
+    {
+      "seed": 42,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.635983084917749,
+      "min_constraint": -7.480127628411992e-15
+    },
+    {
+      "seed": 99,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.6359830849176835,
+      "min_constraint": -5.2735593669694936e-15
+    },
+    {
+      "seed": 123,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.635977394754435,
+      "min_constraint": -6.0923488476305465e-15
+    },
+    {
+      "seed": 2026,
+      "scale": 0.01,
+      "success": false,
+      "sum_r": 2.6359830849176618,
+      "min_constraint": -1.083855227790309e-14
+    },
+    {
+      "seed": 1,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.627276751417876,
+      "min_constraint": -3.0576097209689124e-12
+    },
+    {
+      "seed": 2,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.612863704565734,
+      "min_constraint": -3.3703040358545877e-12
+    },
+    {
+      "seed": 3,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.5961637771796973,
+      "min_constraint": -7.105427357601002e-15
+    },
+    {
+      "seed": 7,
+      "scale": 0.1,
+      "success": true,
+      "sum_r": 2.6359830849175827,
+      "min_constraint": -2.1649348980190553e-15
+    },
+    {
+      "seed": 13,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.562186262492575,
+      "min_constraint": -4.676814491233472e-15
+    },
+    {
+      "seed": 21,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.6082158510513715,
+      "min_constraint": -5.7870375158586285e-15
+    },
+    {
+      "seed": 42,
+      "scale": 0.1,
+      "success": true,
+      "sum_r": 2.610354705792362,
+      "min_constraint": -9.228728892196614e-16
+    },
+    {
+      "seed": 99,
+      "scale": 0.1,
+      "success": true,
+      "sum_r": 2.5899266856858536,
+      "min_constraint": -2.6506574712925612e-15
+    },
+    {
+      "seed": 123,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.620919256295403,
+      "min_constraint": -1.597333376679444e-14
+    },
+    {
+      "seed": 2026,
+      "scale": 0.1,
+      "success": false,
+      "sum_r": 2.6082158510513738,
+      "min_constraint": -5.245803791353865e-15
+    }
+  ],
+  "certified_strict_local_max": true,
+  "wall_clock_seconds": 4.12146782875061
+}
