@@ -1,0 +1,12 @@
+{
+  "method": "shor_level1_with_RLT",
+  "lasserre_level": 1,
+  "moment_matrix_size": 79,
+  "num_constraints": 717,
+  "solver": "CLARABEL",
+  "status": "optimal",
+  "tightened_ub": 13.000000000362112,
+  "parent_ub": 2.7396,
+  "parent_primal": 2.6359830865,
+  "wall_clock_seconds": 5.447213888168335
+}
