@@ -1,7 +1,7 @@
 ---
 strategy: jax-soft-body-annealing
-status: in-progress
-eval_version: v1
+status: complete
+eval_version: eval-v1
 metric: 2.6359830849
 issue: 12
 parent: topo-001
